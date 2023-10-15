@@ -1,0 +1,129 @@
+@import url('reset.css');
+@import url('https://fonts.googleapis.com/css?family=Poppins:regular');
+
+body {
+   font-family: 'Poppins', sans-serif;
+   color: #f5f5f5;
+   font-size: 18px;
+   background-color: #252525;
+}
+
+[class*='__container'] {
+   max-width: 1310px;
+   margin: 0 auto;
+   padding: 0 15px;
+}
+
+.main-section {
+   padding: 3.75rem 0;
+}
+
+.title {
+   color: #66c875;
+   font-size: 2.25rem;
+   line-height: 1.5;
+}
+
+.subtitle {
+   color: #dd4b25;
+   font-size: 1.5rem;
+}
+
+.subtitle:not(:last-child) {
+   margin-bottom: 1.25rem;
+}
+
+.title:not(:last-child) {
+   margin-bottom: 1.875rem;
+}
+
+.list:not(:last-child) {
+   margin-bottom: 1.25rem;
+}
+
+.list .list__item:not(:last-child) {
+   margin-bottom: 1.25rem;
+}
+
+.list__item {
+   line-height: 1.25;
+}
+
+.list__item a {
+   display: inline-block;
+   color: #36495e;
+   line-height: 1.25;
+   transition: color 0.3s ease 0s;
+}
+
+.list__item a:not(:last-child),
+.list__item p {
+   margin-bottom: 0.625rem;
+}
+
+.list__item a:hover {
+   color: #66c875;
+}
+
+.list img {
+   max-width: 100%;
+}
+
+.sublist:not(:last-child) {
+   margin-bottom: 1.875rem;
+}
+
+.sublist .sublist__item:not(:last-child) {
+   margin-bottom: 0.9375rem;
+}
+
+.sublist__item {
+   position: relative;
+   padding-left: 1.25rem;
+}
+
+.sublist__item::before {
+   content: '';
+   position: absolute;
+   top: 50%;
+   left: 0;
+   transform: translate(0, -50%);
+   background-color: #66c875;
+   border-radius: 50%;
+   width: 0.5rem;
+   height: 0.5rem;
+}
+
+/* ======================================================================================================================================================== */
+.block {
+   padding: 3.75rem 0;
+}
+
+.label {
+   display: inline-flex;
+   align-items: center;
+   gap: 0 1.25rem;
+}
+
+.label:not(:last-child) {
+   margin-bottom: 1.25rem;
+}
+
+.input {
+   color: #252525;
+   padding: 0.3125rem 0.625rem;
+}
+
+.button {
+   padding: 0.3125rem 0.625rem;
+   background-color: #66c875;
+   transition: background 0.3s ease 0s;
+}
+
+.button:disabled {
+   filter: grayscale(1);
+}
+
+.button:hover {
+   background-color: #36495e;
+}

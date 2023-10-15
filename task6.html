@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 6</title>
+</head>
+
+<style>
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <label class="label">
+               <input type="text" class="input" v-model="searchedText">
+            </label>
+            <ul>
+               <li v-for="worker in filteredWorkersList">{{worker}}</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+         data() {
+            return {
+               searchedText: null,
+               workersList: ['Vlad', 'Petro', 'Kate', 'Ann', 'Stepan', 'Natalya', 'Olena', 'Dmytro']
+            }
+         },
+
+         computed: {
+            filteredWorkersList() {
+               if (!this.searchedText) return this.workersList
+               return this.workersList.filter(worker => worker.toLowerCase().includes(this.searchedText.toLowerCase()))
+            }
+         },
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

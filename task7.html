@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 1</title>
+</head>
+
+<style>
+   .dancing-pairs {
+      display: grid;
+      justify-items: center;
+      gap: 2rem 0;
+   }
+
+   .dancing-pairs__columns {
+      display: flex;
+      justify-content: center;
+      gap: 0 2.5rem;
+   }
+
+   .dancing-pairs__column {
+      flex: 1 1 18.75rem;
+      width: 18.75rem;
+      border: 2px solid #f5f5f5;
+      padding: 1.25rem 0.625rem;
+   }
+
+   .dancing-pairs__list {
+      display: grid;
+      gap: 0.625rem 0;
+   }
+
+   .dancing-pairs__item {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0.625rem;
+      border: 1px solid #f5f5f5;
+      transition: all 0.3s ease 0s;
+   }
+
+   .selected {
+      border: 1px solid #66c875;
+      background-color: #66c875;
+   }
+
+   .dancing-pairs__item:hover {
+      color: #252525;
+      background-color: #f5f5f5;
+   }
+
+   .button:disabled {
+      filter: grayscale(1);
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="dancing-pairs">
+               <div class="dancing-pairs__columns">
+                  <div class="dancing-pairs__column">
+                     <h2 class="subtitle">Хлопці</h2>
+                     <ul class="dancing-pairs__list">
+                        <li v-for="boy in boysList" :key="boy.id" :class="['dancing-pairs__item', {'selected': boy.isSelected}]" @click="selectBoy(boy)">{{boy.name}}</li>
+                     </ul>
+                  </div>
+                  <div class="dancing-pairs__column">
+                     <h2 class="subtitle">Дівчата</h2>
+                     <ul class="dancing-pairs__list">
+                        <li v-for="girl in girlsList" :key="girl.id" :class="['dancing-pairs__item', {'selected': girl.isSelected}]" @click="selectGirl(girl)">{{girl.name}}</li>
+                     </ul>
+                  </div>
+               </div>
+               <button type="button" class="button center" :disabled="!isDisabled" @click="addPair">Додати</button>
+               <h2 class="subtitle">Обрані пари</h2>
+               <ul class="dancing-pairs__list">
+                  <li v-for="pair in pairsList" :key="pair.id" class="dancing-pairs__item" @click="removePair(pair.id)">{{pair.boy.name}} - {{pair.girl.name}}</li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script type="module">
+      const { createApp } = Vue
+
+      import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+
+      const app = createApp({
+         data() {
+            return {
+               boysList: [{ id: uuidv4(), name: 'Влад', isSelected: false }, { id: uuidv4(), name: 'Василь', isSelected: false }, { id: uuidv4(), name: 'Богдан', isSelected: false }, { id: uuidv4(), name: 'Іван', isSelected: false }, { id: uuidv4(), name: 'Андрій', isSelected: false }, { id: uuidv4(), name: 'Євген', isSelected: false }, { id: uuidv4(), name: 'Дмитро', isSelected: false }],
+               girlsList: [{ id: uuidv4(), name: 'Катерина', isSelected: false }, { id: uuidv4(), name: 'Наталя', isSelected: false }, { id: uuidv4(), name: 'Юлія', isSelected: false }, { id: uuidv4(), name: 'Надія', isSelected: false }, { id: uuidv4(), name: 'Дар\'я', isSelected: false }, { id: uuidv4(), name: 'Вікторія', isSelected: false }, { id: uuidv4(), name: 'Олена', isSelected: false }, { id: uuidv4(), name: 'Марія', isSelected: false }],
+               pairsList: [],
+               selectedBoy: null,
+               selectedGirl: null,
+            }
+         },
+
+         computed: {
+            isDisabled() {
+               return (this.selectedBoy && this.selectedGirl) && (this.boysList.length && this.girlsList.length)
+            }
+         },
+
+         methods: {
+            selectBoy(boy) {
+               if (this.selectedBoy) this.selectedBoy.isSelected = false
+               this.selectedBoy = boy
+               this.selectedBoy.isSelected = true
+            },
+
+            selectGirl(girl) {
+               if (this.selectedGirl) this.selectedGirl.isSelected = false
+               this.selectedGirl = girl
+               this.selectedGirl.isSelected = true
+            },
+
+            removePerson(person, personsList) {
+               const index = personsList.findIndex(item => item.id === person.id)
+               personsList.splice(index, 1)
+            },
+
+            addPair() {
+               const pair = {
+                  id: uuidv4(),
+                  boy: this.selectedBoy,
+                  girl: this.selectedGirl
+               }
+
+               this.pairsList.push(pair)
+
+               this.removePerson(this.selectedBoy, this.boysList)
+               this.removePerson(this.selectedGirl, this.girlsList)
+            },
+
+            removePair(pairId) {
+               const index = this.pairsList.findIndex(pair => pair.id === pairId)
+
+               this.boysList.push(this.pairsList[index].boy)
+               this.girlsList.push(this.pairsList[index].girl)
+
+               this.pairsList.splice(index, 1)
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

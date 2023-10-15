@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 2</title>
+</head>
+
+<style>
+   .cold {
+      background-color: white;
+   }
+
+   .low {
+      background-color: blue;
+   }
+
+   .middle {
+      background-color: green;
+   }
+
+   .high {
+      background-color: red;
+   }
+</style>
+
+<body>
+   <!-- З використанням класів -->
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <label class="label">
+               Введіть температуру
+               <input type="number" :class="['input', {[currentColor]: temperatureValue}]" v-model.lazy="temperatureValue">
+            </label>
+         </div>
+      </div>
+   </div>
+
+   <!-- З використанням стилів -->
+   <div id="app1">
+      <div class="block">
+         <div class="block__container">
+            <label class="label">
+               Введіть температуру
+               <input type="number" :class="input" :style="{backgroundColor: currentColor}" v-model.lazy="temperatureValue">
+            </label>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      // З використанням класів
+      const app = createApp({
+         data() {
+            return {
+               temperatureValue: null,
+            }
+         },
+
+         computed: {
+            currentColor() {
+               let resultColor = ''
+
+               if (this.temperatureValue) {
+                  if (this.temperatureValue < 0) resultColor = 'cold'
+                  else if (this.temperatureValue < 11) resultColor = 'low'
+                  else if (this.temperatureValue < 23) resultColor = 'middle'
+                  else resultColor = 'high'
+               }
+
+               return resultColor
+            }
+         }
+      })
+
+      app.mount('#app')
+
+      const app1 = createApp({
+         data() {
+            return {
+               temperatureValue: null,
+            }
+         },
+
+         computed: {
+            currentColor() {
+               let resultColor = 'gray'
+
+               if (this.temperatureValue < 0) resultColor = 'white'
+               else if (this.temperatureValue < 11) resultColor = 'blue'
+               else if (this.temperatureValue < 23) resultColor = 'green'
+               else resultColor = 'red'
+
+               return resultColor
+            }
+         }
+      })
+
+      app1.mount('#app1')
+   </script>
+</body>
+
+</html>

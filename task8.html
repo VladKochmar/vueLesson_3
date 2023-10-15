@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 2</title>
+</head>
+
+<style>
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <label class="label">
+               Марка
+               <select v-model="selectedBrand">
+                  <option v-for="(brand, index) in brandsList" :key="index" :value="brand">{{brand}}</option>
+               </select>
+            </label>
+            <label class="label">
+               Рік випуску
+               <select v-model="selectedYear">
+                  <option v-for="(year, index) in yearsList" :key="index" :value="year">{{year}}</option>
+               </select>
+            </label>
+            <div v-if="filteredList.length">
+               <h2 class="subtitle">Список</h2>
+               <ul class="sublist">
+                  <li class="sublist__item" v-for="car in filteredList" :key="car.id">{{car.brand}} - {{car.year}} - {{car.price}}</li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script type="module">
+      const { createApp } = Vue
+
+      import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+
+      const app = createApp({
+         data() {
+            return {
+               selectedBrand: null,
+               selectedYear: null,
+               carsList: [{ id: uuidv4(), brand: 'Opel', year: 2004, price: '4000$' }, { id: uuidv4(), brand: 'Opel', year: 2000, price: '2500$' }, { id: uuidv4(), brand: 'Mercedes', year: 2018, price: '25000$' }, { id: uuidv4(), brand: 'Audi', year: 2011, price: '8000$' }, { id: uuidv4(), brand: 'Mercedes', year: 2020, price: '30000$' }]
+            }
+         },
+
+         computed: {
+            brandsList() {
+               return Array.from(new Set(this.carsList.map(car => car.brand)))
+            },
+
+            yearsList() {
+               return Array.from(new Set(this.carsList.map(car => car.year)))
+            },
+
+            filteredList() {
+               return this.carsList.filter(car => car.brand === this.selectedBrand && car.year === this.selectedYear)
+            }
+         },
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 1</title>
+</head>
+
+<style>
+   .result:not(:last-child) {
+      margin-bottom: 1rem;
+   }
+
+   .result span {
+      color: #66c875;
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <label class="label">
+               Введіть довжину в см
+               <input type="number" class="input" v-model="centimeters">
+            </label>
+            <p class="result">Метри: <span>{{meters}}</span></p>
+            <p class="result">Кілометри: <span>{{kilometers}}</span></p>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const CM_IN_METER = 100, METERS_IN_KILOMETER = 1000
+
+      const app = createApp({
+         data() {
+            return {
+               centimeters: null,
+            }
+         },
+
+         computed: {
+            meters() {
+               return this.centimeters / CM_IN_METER
+            },
+
+            kilometers() {
+               return this.meters / METERS_IN_KILOMETER
+            }
+         },
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

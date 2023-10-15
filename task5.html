@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 5</title>
+</head>
+
+<style>
+   .lists {
+      display: flex;
+      gap: 0 2.5rem;
+   }
+
+   .list-container {
+      width: 500px;
+      height: 700px;
+   }
+
+   .athlete-container {
+      display: grid;
+      border: 2px solid #f5f5f5;
+      gap: 0.625rem 0;
+      padding: 10px;
+   }
+
+   .athlete {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      border: 2px solid #f5f5f5;
+      justify-content: space-between;
+      padding: 5px;
+      transition: background 0.3s ease 0s;
+   }
+
+   .athlete:hover {
+      background-color: #66c875;
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="lists">
+               <div class="list-container">
+                  <h2 class="subtitle">Загальний список</h2>
+                  <ul class="athlete-container">
+                     <li class="athlete" v-for="sportmen of athletesList" :key="sportmen.id">
+                        {{sportmen.name}}
+                        <button type="button" @click="onSelect(sportmen.id)">
+                           <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" fill="green" fill-rule="evenodd" clip-rule="evenodd">
+                              <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" />
+                           </svg>
+                        </button>
+                     </li>
+                  </ul>
+               </div>
+               <div class="list-container">
+                  <h2 class="subtitle">Cписок обраних</h2>
+                  <ul class="athlete-container">
+                     <li class="athlete" v-for="sportmen of selectedAthletesList" :key="sportmen.id">
+                        <button type="button" @click="onDeselect(sportmen.id)">
+                           <svg style="transform: rotate(180deg);" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" fill="red" fill-rule="evenodd" clip-rule="evenodd">
+                              <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" />
+                           </svg>
+                        </button>
+                        {{sportmen.name}}
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script type="module">
+      const { createApp } = Vue
+
+      import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+
+      const app = createApp({
+         data() {
+            return {
+               athletesList: [{ id: uuidv4(), name: 'Олександр Зінченко' }, { id: uuidv4(), name: 'Михайло Мудрик' }, { id: uuidv4(), name: 'Андрій Ярмоленко' }, { id: uuidv4(), name: 'Георгій Судаков' }, { id: uuidv4(), name: 'Анатолій трубін' }, { id: uuidv4(), name: 'Жан Беленюк' }],
+               selectedAthletesList: [{ id: uuidv4(), name: 'Олександр Тимчик' }, { id: uuidv4(), name: 'Ольга Харлан' }, { id: uuidv4(), name: 'Віктор Циганков' }]
+            }
+         },
+
+         methods: {
+            onSelect(id) {
+               const currentIndex = this.athletesList.findIndex(sportsmen => sportsmen.id === id)
+               this.selectedAthletesList.push(this.athletesList[currentIndex])
+               this.athletesList.splice(currentIndex, 1)
+            },
+
+            onDeselect(id) {
+               const currentIndex = this.selectedAthletesList.findIndex(sportsmen => sportsmen.id === id)
+               this.athletesList.push(this.selectedAthletesList[currentIndex])
+               this.selectedAthletesList.splice(currentIndex, 1)
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

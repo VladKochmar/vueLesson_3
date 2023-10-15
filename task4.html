@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 4</title>
+</head>
+
+<style>
+   .mine-field {
+      display: flex;
+      gap: 0 0.625rem;
+   }
+
+   .cell {
+      cursor: pointer;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 2px solid #f5f5f5;
+   }
+
+   .closed {
+      background-color: gray;
+   }
+
+   .free {
+      background-color: green;
+   }
+
+   .mine {
+      background-color: red;
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <ul class="mine-field">
+               <li v-for="cell in mineField" :key="cell.id" class="cell" :class="{
+                  'closed': cell.isClosed,
+                  'free': !cell.isClosed && !cell.mine,
+                  'mine': !cell.isClosed && cell.mine,
+               }" @click="onClick(cell.id)"></li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+         data() {
+            return {
+               mineField: [{ id: 1, mine: false, isClosed: true }, { id: 2, mine: false, isClosed: true }, { id: 3, mine: true, isClosed: true }, { id: 4, mine: false, isClosed: true }, { id: 5, mine: false, isClosed: true }, { id: 6, mine: false, isClosed: true }, { id: 7, mine: false, isClosed: true }, { id: 8, mine: true, isClosed: true }, { id: 9, mine: false, isClosed: true }]
+            }
+         },
+
+         computed: {
+
+         },
+
+         methods: {
+            onClick(currentElemId) {
+               const currentIndex = this.mineField.findIndex(cell => cell.id === currentElemId)
+               const currentCell = this.mineField[currentIndex]
+               currentCell.isClosed = false
+
+               if (!currentCell.mine) {
+                  for (let i = currentIndex + 1; i < this.mineField.length; i++) {
+                     if (!this.mineField[i].mine)
+                        this.mineField[i].isClosed = false
+                     else break
+                  }
+                  for (let i = currentIndex - 1; i >= 0; i--) {
+                     if (!this.mineField[i].mine)
+                        this.mineField[i].isClosed = false
+                     else break
+                  }
+               }
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>
